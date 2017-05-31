@@ -5,21 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>TP Estacionamiento - Ingreso como empleado</title>
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="funciones.js"></script>
 </head>
 <body>
-    <h3>LOGIN DE EMPLEADO</h3>
+    <h3>LOGIN DEL PERSONAL</h3>
     Usuario:
     </br>
-    <input type="text" name="txtEmpleado" placeholder="Usuario del empleado">
+    <input type="text" id="txtEmpleado" placeholder="Usuario">
     </br>
     Contraseña:
     </br>
-    <input type="password" name="claveEmpleado" placeholder="Password">
+    <input type="password" id="txtPassword" placeholder="Password">
     </br>
     </br>
-    <input type="button" value="Ingresar">
-    </br>
-    </br>
-    <a href="indexAdministrador.php">Ingresar como administrador</a>
+    <input type="button" value="Ingresar" onclick="verificarEmpleado()">
 </body>
 </html>

@@ -5,17 +5,18 @@ class Vehiculo
     private $_patente;
     private $_color;
     private $_marca;
+    private $_pago;
+    private $_cochera;
+    private $_fechaIngreso;
 
-    function __construct($patente,$color,$marca)
+    function __construct($patente,$color,$marca,$pago,$cochera,$fechaIngreso)
     {
         $this->_patente = $patente;
         $this->_color = $color;
         $this->_marca = $marca;
-    }
-
-    function ToString()
-    {
-        echo "Patente: ".$this->_patente." - Color: ".$this->_color." - Marca: ".$this->_marca; 
+        $this->_pago = $pago;
+        $this->_cochera = $cochera;
+        $this->_fechaIngreso = $fechaIngreso;
     }
 
     function GetPatente()
@@ -28,24 +29,24 @@ class Vehiculo
         return $this->_color;
     }
 
-     function GetMarca()
+    function GetMarca()
     {
-        return $this->marca;
+        return $this->_marca;
     }
 
-    function SetPatente($value)
+    function GetPago()
     {
-        $this->_patente = $value;
+        return $this->_pago;
     }
 
-    function SetColor($value)
+    function GetCochera()
     {
-        $this->_color = $value;
+        return $this->_cochera;
     }
 
-    function SetMarca($value)
+    function GetFechaIngreso()
     {
-        $this->_marca = $value;
+        return $this->_fechaIngreso;
     }
 }
 
