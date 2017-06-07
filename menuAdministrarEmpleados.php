@@ -2,7 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION["personal"]))
+if(isset($_SESSION["empleado"]))
 {
     echo '<!DOCTYPE html>
             <html lang="es">
@@ -16,15 +16,40 @@ if(isset($_SESSION["personal"]))
             </head>
             <body>
                 <h2>Administrar empleados</h2>
-                <input type="button" value="Agregar nuevo empleado">
-                </br>
-                <input type="button" value="Suspender empleado">
-                </br>
-                <input type="button" value="Habilitar empleado">
-                </br>
-                <input type="button" value="Eliminar empleado">
+                <form action="menuAdministrarEmpleados.php" method="POST">
+                    <input type="submit" name="alta" value="Agregar nuevo empleado">
+                    </br>
+                    <input type="submit" name="suspender" value="Suspender empleado">
+                    </br>
+                    <input type="submit" name="habilitar" value="Habilitar empleado">
+                    </br>
+                    <input type="submit" name="baja" value="Eliminar empleado">
+                    </br>
+                    </br>
+                </form>
+                <a href="menuAdministrador.php">Volver al menú del administrador</a>
             </body>
             </html>';
+
+    if(isset($_POST["alta"]))
+    {
+        header("Location:altaEmpleado.php");
+    }
+
+    if(isset($_POST["suspender"]))
+    {
+        header("Location:suspenderEmpleado.php");
+    }
+
+    if(isset($_POST["habilitar"]))
+    {
+        header("Location:habilitarEmpleado.php");
+    }
+
+    if(isset($_POST["baja"]))
+    {
+        header("Location:eliminarEmpleado.php");
+    }
 }
 else
 {

@@ -1,33 +1,3 @@
-function verificarEmpleado()
-{
-    $.ajax({
-            url: "verificarEmpleado.php",
-            type: "POST",
-            data: "txtEmpleado="+$("#txtEmpleado").val()+"&txtPassword="+$("#txtPassword").val()+"&op=login",
-            success: function(data)
-            {
-                if (data == "empleado")
-                {
-                    alert("Ingreso correcto como EMPLEADO, redireccionando al menú correspondiente...");
-                    window.location.href = "menuEmpleado.php";
-                }
-                else
-                {
-                    if (data == "administrador") 
-                    {
-                        alert("Ingreso correcto como ADMINISTRADOR, redireccionando al menú correspondiente...");
-                        window.location.href = "menuAdministrador.php";
-                    } 
-                    else 
-                    {
-                        alert("Datos incorrectos, intente nuevamente");
-                        window.location.href = "index.php";
-                    }
-                }
-            }
-        })
-}
-
 function cerrarSesionEmpleado()
 {
     $.ajax({
@@ -57,19 +27,86 @@ function redireccionarAdministrarEmpleados()
 function agregarEmpleado()
 {
     $.ajax({
-            url: "administrarEmpleados/administrarEmpleados.php",
+            url: "administrarEmpleados.php",
             type: "POST",
-            data: "op=altaEmpleado",
+            data: $("#form").serialize()+"&op=altaEmpleado",
             success: function(data)
             {
-                if (data == "salir")
+                if (data == "empleado agregado")
                 {
-                    alert("Sesión cerrada");
-                    window.location.href = "index.php";
+                    alert("Empleado agregado");
+                    //window.location.href = "listadoEmpleados.php";
                 }
                 else
                 {
-                    alert("Error al deslogearse, intente nuevamente");
+                    alert(data);
+                    window.location.href = "../menuAdministrarEmpleados.php";
+                }
+            }
+        })
+}
+
+function suspenderEmpleado()
+{
+    $.ajax({
+            url: "administrarEmpleados.php",
+            type: "POST",
+            data: $("#form").serialize()+"&op=suspenderEmpleado",
+            success: function(data)
+            {
+                if (data == "empleado suspendido")
+                {
+                    alert("Empleado suspendido");
+                    //window.location.href = "listadoEmpleados.php";
+                }
+                else
+                {
+                    alert("El empleado no existe");
+                    window.location.href = "../menuAdministrarEmpleados.php";
+                }
+            }
+        })
+}
+
+function habilitarEmpleado()
+{
+    $.ajax({
+            url: "administrarEmpleados.php",
+            type: "POST",
+            data: $("#form").serialize()+"&op=habilitarEmpleado",
+            success: function(data)
+            {
+                if (data == "empleado habilitado")
+                {
+                    alert("Empleado habilitado");
+                    //window.location.href = "listadoEmpleados.php";
+                }
+                else
+                {
+                    alert("El empleado no existe");
+                    window.location.href = "../menuAdministrarEmpleados.php";
+                }
+            }
+        })
+}
+
+function eliminarEmpleado()
+{
+    $.ajax({
+            url: "administrarEmpleados.php",
+            type: "POST",
+            data: $("#form").serialize()+"&op=eliminarEmpleado",
+            success: function(data)
+            {
+                if (data == "empleado eliminado")
+                {
+                    alert("Empleado eliminado");
+                    //window.location.href = "listadoEmpleados.php";
+                }
+                else
+                {
+                    alert("El empleado no existe");
+                    window.location.href = "../menuAdministrarEmpleados.php";
                 }
             }
         })

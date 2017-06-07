@@ -4,41 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TP Estacionamiento - Ingreso como empleado</title>
-    <!--<script type="text/javascript" src="jquery.js"></script>
-	<script type="text/javascript" src="funciones.js"></script>-->
+    <title>TP Estacionamiento - Suspender Empleado</title>
+    <!--<script type="text/javascript" src="../jquery.js"></script>
+    <script type="text/javascript" src="../funciones.js"></script>-->
 </head>
 <body>
-    <h3>LOGIN DEL PERSONAL</h3>
-    <form action="index.php" method="POST">
-        Usuario:
+    <form action="suspenderEmpleado.php" method="POST">
+        <h2>Suspender empleado</h2>
+        Usuario del empleado a suspender:
         </br>
-        <input type="text" name="txtEmpleado" id="txtEmpleado" placeholder="Usuario" required>
-        </br>
-        Contraseña:
-        </br>
-        <input type="password" name="txtPassword" id="txtPassword" placeholder="Password" required>
+        <input type="text" name="usuario">
         </br>
         </br>
-        <input type="submit" name="login" value="Ingresar">
+        <input type="submit" name="suspenderEmpleado" value="Suspender empleado">
     </form>
-
+    </br>
+    </br>
+    <a href="menuAdministrarEmpleados.php">Volver al administrador de empleados</a>
 </body>
 </html>
 
 <?php
 
-if(isset($_POST["txtEmpleado"]) && isset($_POST["txtPassword"]) && isset($_POST["login"]))
+if(isset($_POST["suspenderEmpleado"]))
 {
-
+    
 ///***********************************************************************************************///
 ///COMO CLIENTE DEL SERVICIO WEB///
 ///***********************************************************************************************///
 
-
 //1.- INCLUIMOS LA LIBRERIA NUSOAP DENTRO DE NUESTRO ARCHIVO
 		require_once('lib/nusoap.php');
-		require_once("clases/Empleado.php");
+        require_once("clases/Empleado.php");
+
 //2.- INDICAMOS URL DEL WEB SERVICE
 		$host = 'http://localhost/tpEstacionamiento/ESTACIONAMIENTO_2017/loginWS.php';
 		
@@ -53,11 +51,8 @@ if(isset($_POST["txtEmpleado"]) && isset($_POST["txtPassword"]) && isset($_POST[
 			die();
 		}
 
-		$usuario["usuario"] = $_POST["txtEmpleado"];
-		$usuario["password"] = $_POST["txtPassword"];
-
 //4.- INVOCAMOS AL METODO SOAP, PASANDOLE EL PARAMETRO DE ENTRADA
-		$result = $client->call('verificarUsuario', array($usuario));
+		$result = $client->call('suspenderEmpleado', array($_POST["usuario"]));
 
 //5.- CHECKEAMOS POSIBLES ERRORES AL INVOCAR AL METODO DEL WS 
 		if ($client->fault) 
@@ -75,25 +70,20 @@ if(isset($_POST["txtEmpleado"]) && isset($_POST["txtPassword"]) && isset($_POST[
 			} 
 			else 
             {//MOSTRAMOS EL RESULTADO DEL METODO DEL WS.
-				if($result == "administrador")
+				if($result == "suspendido")
 				{
-					session_start();
-					$_SESSION["empleado"] = $_POST["txtEmpleado"];
-					header("Location:menuAdministrador.php");
+					echo "</br>Empleado correctamente suspendido";
 				}
 				else
 				{
-					if($result == "empleado")
-					{
-						session_start();
-						$_SESSION["empleado"] = $_POST["txtEmpleado"];
-						header("Location:menuEmpleado.php");
-					}
-					else
-					{
-						header("Location:index.php");
-						echo "El usuario ingresado no existe";
-					}
+					if($result == "yaSuspendido")
+                    {
+                        echo "</br>El empleado ya ha sido suspendido anteriormente";
+                    }
+                    else
+                    {
+                        echo "</br>El empleado no existe";
+                    }
 				}
 			}
 		}

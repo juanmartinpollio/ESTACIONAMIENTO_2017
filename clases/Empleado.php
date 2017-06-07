@@ -109,7 +109,7 @@ class Empleado
             $auxCondicion = $objeto->GetCondicion();
             $auxAdministrador = $objeto->GetAdministrador();
 
-			$consulta = $pdo->prepare("INSERT INTO `empleados`(`id`, `usuario`, `nombre`, `apellido`, `password`, `turno`, `condicion`, `administrador`) VALUES (:id,:usuario,:nombre,:apellido,:password,:turno,:condicion,:administrador)");
+			$consulta = $pdo->prepare("INSERT INTO `empleados`(`id`,`usuario`, `nombre`, `apellido`, `password`, `turno`, `condicion`, `administrador`) VALUES (:id,:usuario,:nombre,:apellido,:password,:turno,:condicion,:administrador)");
 			$consulta->bindParam(":id",$auxID);
 			$consulta->bindParam(":usuario",$auxUsuario);
 			$consulta->bindParam(":nombre",$auxNombre);
@@ -119,7 +119,7 @@ class Empleado
             $consulta->bindParam(":condicion",$auxCondicion);
             $consulta->bindParam(":administrador",$auxAdministrador);
 
-			return $consulta->execute();    
+			return $consulta->execute();
 		}
 		catch(PDOException $e)
 		{
