@@ -2,7 +2,7 @@
 
 require_once "Vehiculo.php";
 
-class Cochera()
+class Cochera
 {
     private $_tipo;
     private $_numero;

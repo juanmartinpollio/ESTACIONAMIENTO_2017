@@ -15,20 +15,28 @@ if(isset($_SESSION["empleado"]))
         <script type="text/javascript" src="funciones.js"></script>
     </head>
     <body>
-        <h2>Menú del administrador</h2>
-        Sesión inciada como: '.$_SESSION["empleado"].'</br>
-        <input type="button" value="Registrar vehículo">
-        </br>
-        <input type="button" value="Listado de vehículos">
-        </br>
-        <input type="button" value="Retirar vehículos">
-        </br>
-        <input type="button" value="Administrar personal" onclick="redireccionarAdministrarEmpleados()">
-        </br>
-        </br>
-        <input type="button" value="Desloguearse" onclick="cerrarSesionEmpleado()">
+        <form action="menuAdministrador.php" method="POST">
+            <h2>Menú del administrador</h2>
+            Sesión inciada como: '.$_SESSION["empleado"].'</br>
+            <input type="submit" name="registrarVehiculo" value="Registrar vehículo">
+            </br>
+            <input type="submit" value="Listado de vehículos">
+            </br>
+            <input type="submit" value="Retirar vehículos">
+            </br>
+            <input type="button" value="Administrar personal" onclick="redireccionarAdministrarEmpleados()">
+            </br>
+            </br>
+            <input type="button" value="Desloguearse" onclick="cerrarSesionEmpleado()">
+        </form>
     </body>
     </html>';
+
+    if(isset($_POST["registrarVehiculo"]))
+    {
+        header("Location:registrarVehiculo.php");
+    }
+
 }
 else
 {

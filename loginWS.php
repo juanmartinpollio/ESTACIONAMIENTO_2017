@@ -121,6 +121,16 @@
 
 	function registrarEmpleado($persona)
 	{
+		$arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
+
+		foreach ($arrayDeEmpleados as $item) 
+		{
+			if($item->GetUsuario() == $persona["usuario"])
+			{
+				return "error";
+			}
+		}
+
 		$empleado = new Empleado(NULL,$persona["usuario"],$persona["nombre"],$persona["apellido"],$persona["password"],$persona["turno"],$persona["condicion"],$persona["administrador"]);
 
 		if(Empleado::GuardarEnBD($empleado))

@@ -24,90 +24,31 @@ function redireccionarAdministrarEmpleados()
     window.location.href = "menuAdministrarEmpleados.php";
 }
 
-function agregarEmpleado()
+function agregar()
 {
-    $.ajax({
-            url: "administrarEmpleados.php",
-            type: "POST",
-            data: $("#form").serialize()+"&op=altaEmpleado",
-            success: function(data)
-            {
-                if (data == "empleado agregado")
-                {
-                    alert("Empleado agregado");
-                    //window.location.href = "listadoEmpleados.php";
-                }
-                else
-                {
-                    alert(data);
-                    window.location.href = "../menuAdministrarEmpleados.php";
-                }
-            }
-        })
-}
+    var pagina = "http://localhost/tpEstacionamiento/ESTACIONAMIENTO_2017/apiRest/vehiculo";
 
-function suspenderEmpleado()
-{
-    $.ajax({
-            url: "administrarEmpleados.php",
-            type: "POST",
-            data: $("#form").serialize()+"&op=suspenderEmpleado",
-            success: function(data)
-            {
-                if (data == "empleado suspendido")
-                {
-                    alert("Empleado suspendido");
-                    //window.location.href = "listadoEmpleados.php";
-                }
-                else
-                {
-                    alert("El empleado no existe");
-                    window.location.href = "../menuAdministrarEmpleados.php";
-                }
-            }
-        })
-}
+	var formData = new FormData();
+	formData.append("patente",$("#patente").val());
+	formData.append("color",$("#color").val());
+	formData.append("marca",$("#marca").val());
+    formData.append("cochera",$("#cochera").val());
 
-function habilitarEmpleado()
-{
-    $.ajax({
-            url: "administrarEmpleados.php",
-            type: "POST",
-            data: $("#form").serialize()+"&op=habilitarEmpleado",
-            success: function(data)
-            {
-                if (data == "empleado habilitado")
-                {
-                    alert("Empleado habilitado");
-                    //window.location.href = "listadoEmpleados.php";
-                }
-                else
-                {
-                    alert("El empleado no existe");
-                    window.location.href = "../menuAdministrarEmpleados.php";
-                }
-            }
-        })
-}
+	$.ajax({
+        type: 'POST',
+        url: pagina,
+        dataType: "json",
+		cache: false,
+		contentType: false,
+		processData: false,
+        data: formData,
+        async: true
+    })
+    .done(function (objJson) {
+        alert("Vehículo registrado");
+        window.location.href = "listadoDeVehiculos.php";
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+    });    
 
-function eliminarEmpleado()
-{
-    $.ajax({
-            url: "administrarEmpleados.php",
-            type: "POST",
-            data: $("#form").serialize()+"&op=eliminarEmpleado",
-            success: function(data)
-            {
-                if (data == "empleado eliminado")
-                {
-                    alert("Empleado eliminado");
-                    //window.location.href = "listadoEmpleados.php";
-                }
-                else
-                {
-                    alert("El empleado no existe");
-                    window.location.href = "../menuAdministrarEmpleados.php";
-                }
-            }
-        })
 }

@@ -2,7 +2,7 @@
 
 session_start();
 
-if(isset($_SESSION["personal"]))
+if(isset($_SESSION["empleado"]))
 {
     echo '<!DOCTYPE html>
             <html lang="es">
@@ -16,7 +16,7 @@ if(isset($_SESSION["personal"]))
             </head>
             <body>
                 <h2>Menú del empleado</h2>
-                Sesión inciada como: '.$_SESSION["personal"].'</br>
+                Sesión inciada como: '.$_SESSION["empleado"].'</br>
                 <input type="button" value="Registrar vehículo">
                 </br>
                 <input type="button" value="Listado de vehículos">
