@@ -13,16 +13,34 @@ if(isset($_SESSION["empleado"]))
         <title>TP Estacionamiento - Menú Empleado</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript" src="funciones.js"></script>
+        <script>
+        
+        function redireccionarListaVehiculos()
+        {
+            window.location.href = "listadoDeVehiculos.php";
+        }
+
+        function redireccionarAltaVehiculos()
+        {
+            window.location.href = "registrarVehiculo.php";
+        }
+
+        function redireccionarRetirarVehiculos()
+        {
+            window.location.href = "retirarVehiculo.php";
+        }
+
+        </script>
     </head>
     <body>
         <form action="menuAdministrador.php" method="POST">
             <h2>Menú del administrador</h2>
             Sesión inciada como: '.$_SESSION["empleado"].'</br>
-            <input type="submit" name="registrarVehiculo" value="Registrar vehículo">
+            <input type="button" name="registrarVehiculo" value="Registrar vehículo" onclick="redireccionarAltaVehiculos()">
             </br>
-            <input type="submit" value="Listado de vehículos">
+            <input type="button" value="Historial de vehículos" onclick="redireccionarListaVehiculos()">
             </br>
-            <input type="submit" value="Retirar vehículos">
+            <input type="button" value="Retirar vehículos" onclick="redireccionarRetirarVehiculos()">
             </br>
             <input type="button" value="Administrar personal" onclick="redireccionarAdministrarEmpleados()">
             </br>

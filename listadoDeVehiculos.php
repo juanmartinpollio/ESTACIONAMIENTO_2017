@@ -23,7 +23,7 @@
         .done(function (objJson) 
         {
             var tablaEncabezado = "<table border='1' class='table'>";
-            tablaEncabezado += "<tr><th>PATENTE</th><th>COLOR</th><th>MARCA</th><th>COCHERA UTILIZADA</th><th>ACCION</th></tr>";
+            tablaEncabezado += "<tr><th>PATENTE</th><th>COLOR</th><th>MARCA</th><th>COCHERA UTILIZADA</th><th>FECHA DE INGRESO</th><th>FECHA DE RETIRO</th><th>PAGO</th></tr>";
             var tablaCuerpo = "";
             var tablaPie = "</tr></html>";
 
@@ -31,7 +31,7 @@
             {
                 tablaCuerpo += "<tr><td>"+objJson[i].patente+"</td><td>"+objJson[i].color;
                 tablaCuerpo += "</td><td>"+objJson[i].marca+"</td><td>"+objJson[i].cochera;
-                tablaCuerpo += "</td><td><a href='#' onclick='eliminar("+objJson[i].patente+")'>ELIMINAR</a></td></tr>";
+                tablaCuerpo += "</td><td>"+objJson[i].fechaIngreso+"</td><td>"+objJson[i].fechaRetiro+"</td><td>$"+objJson[i].pago+"</td></tr>";
             }
 
             $("#divTabla").html(tablaEncabezado+tablaCuerpo+tablaPie);
@@ -45,5 +45,6 @@
 </head>
 <body>
     <div id="divTabla"></div>
+    <a href="index.php">Volver a la página principal</a>
 </body>
 </html>

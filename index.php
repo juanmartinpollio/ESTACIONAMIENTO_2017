@@ -1,32 +1,44 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TP Estacionamiento - Ingreso como empleado</title>
-    <!--<script type="text/javascript" src="jquery.js"></script>
-	<script type="text/javascript" src="funciones.js"></script>-->
-</head>
-<body>
-    <h3>LOGIN DEL PERSONAL</h3>
-    <form action="index.php" method="POST">
-        Usuario:
-        </br>
-        <input type="text" name="txtEmpleado" id="txtEmpleado" placeholder="Usuario" required>
-        </br>
-        Contraseña:
-        </br>
-        <input type="password" name="txtPassword" id="txtPassword" placeholder="Password" required>
-        </br>
-        </br>
-        <input type="submit" name="login" value="Ingresar">
-    </form>
-
-</body>
-</html>
-
 <?php
+
+session_start();
+
+if(isset($_SESSION["empleado"]))
+{
+	header("Location:menuAdministrador.php");
+}
+else
+{
+	echo '<!DOCTYPE html>
+	<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>TP Estacionamiento - Ingreso como empleado</title>
+		<!--<script type="text/javascript" src="jquery.js"></script>
+		<script type="text/javascript" src="funciones.js"></script>-->
+	</head>
+	<body>
+		<h3>LOGIN DEL PERSONAL</h3>
+		<form action="index.php" method="POST">
+			Usuario:
+			</br>
+			<input type="text" name="txtEmpleado" id="txtEmpleado" placeholder="Usuario" required>
+			</br>
+			Contraseña:
+			</br>
+			<input type="password" name="txtPassword" id="txtPassword" placeholder="Password" required>
+			</br>
+			</br>
+			<input type="submit" name="login" value="Ingresar">
+		</form>
+
+	</body>
+	</html>';
+}
+
+
+
 
 if(isset($_POST["txtEmpleado"]) && isset($_POST["txtPassword"]) && isset($_POST["login"]))
 {

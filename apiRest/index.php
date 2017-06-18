@@ -1,10 +1,14 @@
 <?php
+
+date_default_timezone_set ("America/Argentina/Buenos_Aires");
+
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
 
 require 'vendor/autoload.php';
 require '../clases/AccesoDatos.php';
 require '../clases/Vehiculo.php';
+require '../clases/Cochera.php';
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -26,8 +30,30 @@ $app->post('/vehiculo', function (Request $request, Response $response){
 
     $vehiculo = array();
     $vehiculo = $request->getParsedBody();
+    $flag = TRUE;
+    $array = Vehiculo::TraerTodosLosVehiculos();
 
-    $json["exito"] = Vehiculo::agregarVehiculo($vehiculo["patente"],$vehiculo["color"],$vehiculo["marca"],$vehiculo["cochera"],date("j-m-Y G:i"));
+    foreach ($array as $item)
+    {
+        if(strtolower($item["patente"]) != strtolower($vehiculo["patente"]))
+        {
+            $flag = TRUE;
+            break;
+        }
+        else
+        {
+            $flag = FALSE;
+        }
+    }
+
+    if($flag === TRUE && Vehiculo::agregarVehiculo($vehiculo["patente"],$vehiculo["color"],$vehiculo["marca"],$vehiculo["cochera"],date("Y-m-d H:i:s")))
+    {
+        $json["exito"] = Vehiculo::agregarAutoAlEstacionamiento($vehiculo["patente"],$vehiculo["cochera"]);
+    }
+    else
+    {
+        $json["exito"] = FALSE;
+    }
 
     return json_encode($json["exito"]);
 });
@@ -40,6 +66,14 @@ $app->get('/vehiculo', function (Request $request, Response $response) {
     $response->getBody()->write(json_encode($vehiculos));
 
     return $response;
+});
+
+$app->put('/vehiculo', function (Request $request, Response $response){
+    $patente = $request->getParsedBody();
+
+    $resultado["valor"] = Vehiculo::quitarAutoDelEstacionamiento($patente["patente"]);
+
+    return json_encode($resultado["valor"]);
 });
 
 $app->run();

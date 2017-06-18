@@ -4,33 +4,23 @@ require_once "Vehiculo.php";
 
 class Cochera
 {
-    private $_tipo;
+    private $_patenteOcupada;
     private $_numero;
-    private $_estado;
 
-    function __construct($tipo,$numero,$estado)
+    function __construct($patenteOcupada,$numero)
     {
-        $this->_tipo = $tipo;
+        $this->_patenteOcupada = $patenteOcupada;
         $this->_numero = $numero;
-        $this->_estado = $estado;
     }
 
-    function GetTipo()
-    {
-        return $this->_tipo;
-    }
-    
     function GetNumero()
     {
         return $this->_numero;
     }
 
-    function GetEstado()
+    function GetPatenteOcupada()
     {
-        return $this->_estado;
+        return $this->_patenteOcupada;
     }
 }
-
-
-
 ?>

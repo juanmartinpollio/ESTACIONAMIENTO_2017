@@ -23,8 +23,9 @@
     </br>
     Tipo de cochera:
     </br>
-    <select name="discapacidad" id="discapacidad">
-    <option value="0">Ninguna</option>
+    <select name="discapacidad" id="discapacidad" onchange="actualizarCocheras()">
+    <option value="">--SELECCIONE UNA OPCION--</option>
+    <option value="0">Normal</option>
     <option value="1">Embarazada/Discapacidad</option>
     </select>
     </br>
@@ -32,7 +33,7 @@
     Cocheras disponibles:
     </br>
     <select name="cochera" id="cochera">
-    <option value="0">sin cochera</option>
+    <option value="0">--Esperando tipo de cocheras--</option>
     </select>
     </br>
     </br>
@@ -42,5 +43,7 @@
     </br>-->
     </br>
     <input type="button" value="Agregar vehiculo" onclick="agregar()">
+    </br>
+    <a href="index.php">Volver al menú principal</a>
 </body>
 </html>
