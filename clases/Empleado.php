@@ -127,6 +127,30 @@ class Empleado
 		}
     }
 
+    public static function RegistrarLogin($usuario,$fecha)
+    {
+        	$pdo = new PDO("mysql:host=localhost;dbname=tpEstacionamiento","root","");
+			
+            $auxUsuario = $usuario;
+            $auxFecha = $fecha;
+            $auxOperaciones = 0;
+
+			$consulta = $pdo->prepare("INSERT INTO `registros`(`usuario`, `fechaIngreso`, `cantOperaciones`) VALUES (:usuario,:fechaIngreso,:cantOperaciones)");
+			$consulta->bindParam(":usuario",$auxUsuario);
+			$consulta->bindParam(":fechaIngreso",$auxFecha);
+            $consulta->bindParam(":cantOperaciones",$auxOperaciones);
+
+			return $consulta->execute();
+    }
+
+    public static function ActualizarOperaciones($usuario)
+    {
+        $pdo = new PDO("mysql:host=localhost;dbname=tpEstacionamiento","root","");
+        
+        $fechaHoy = date("Y-m-d");
+        $consulta = $pdo->prepare("UPDATE `registros` SET `cantOperaciones`=`cantOperaciones`+1 WHERE `usuario`='$usuario' AND `fechaIngreso`='$fechaHoy'");
+        $consulta->execute();
+    }
 }
 
 ?>

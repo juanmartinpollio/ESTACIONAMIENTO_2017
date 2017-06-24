@@ -10,7 +10,7 @@ if(isset($_SESSION["empleado"]))
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>TP Estacionamiento - Menú Empleado</title>
+        <title>TP Estacionamiento - Menú Administrador</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript" src="funciones.js"></script>
         <script>

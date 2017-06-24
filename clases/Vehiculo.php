@@ -68,6 +68,24 @@ class Vehiculo
 		}
 	}
 
+    public static function TraerTodosLosVehiculosCochera()
+    {
+        try
+		{
+			$pdo = new PDO("mysql:host=localhost;dbname=tpEstacionamiento","root","");
+
+            $consulta = $pdo->prepare("SELECT * FROM cocheras");
+
+            $consulta->execute();
+
+            return $consulta->fetchall(PDO::FETCH_ASSOC);
+		}
+		catch(PDOException $e)
+		{
+			echo $e->getMessage();
+		}
+    }
+
 	public static function agregarVehiculo($patente,$color,$marca,$cochera,$fechaIngreso)
 	{
         $pdo = new PDO("mysql:host=localhost;dbname=tpEstacionamiento","root","");
@@ -161,6 +179,43 @@ class Vehiculo
             $horaEnSegundos = (strtotime($autoARetirar["fechaRetiro"]) - strtotime($datosAutoARetirar["fechaIngreso"]));
             $autoARetirar["pago"] = ceil($horaEnSegundos/60/60);
             
+            $cantidadDeDias = 0;
+
+            while($horaEnSegundos >= 86400)
+            {
+                $horaEnSegundos = $horaEnSegundos - 86400;
+                $cantidadDeDias++;
+            }
+
+            $importe = $cantidadDeDias * 170;
+
+            if($horaEnSegundos <= 43200 && $horaEnSegundos >= 32400)
+            {
+                $importe = $importe + 90;
+            } 
+            else 
+            {
+                if($horaEnSegundos < 32400)
+                {
+                    $importe += ceil($horaEnSegundos/60/60) * 10;
+                }
+                else
+                {
+                    if($horaEnSegundos > 43200 && $horaEnSegundos < 72000)
+                    {
+                        $redondeo = ceil($horaEnSegundos/60/60) - 12;
+                        
+                        $importe = $importe + 90 + $ceil * 10; 
+                    }
+                    else
+                    {
+                        $importe += 170;
+                    }
+                }
+            }
+
+            $autoARetirar["pago"] = $importe;
+
             $pago = $autoARetirar['pago'];
             $fechaIngreso = $datosAutoARetirar['fechaIngreso'];
             $fechaEgreso = $autoARetirar['fechaRetiro'];

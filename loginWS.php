@@ -103,7 +103,7 @@
 
         foreach ($arrayDeEmpleados as $item)
         {
-            if($item->GetUsuario() == $usuario["usuario"] && $item->GetPassword() == $usuario["password"])
+            if($item->GetUsuario() == $usuario["usuario"] && $item->GetPassword() == $usuario["password"] && $item->GetCondicion() != 2)
             {
                 if($item->GetAdministrador() == 0)
                 {

@@ -1,10 +1,28 @@
 <?php
 
+require "clases/Empleado.php";
+
 session_start();
 
 if(isset($_SESSION["empleado"]))
 {
-	header("Location:menuAdministrador.php");
+	$arrayDeEmpleados = [];
+	$arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
+
+	foreach ($arrayDeEmpleados as $item) 
+	{
+		if($item->GetUsuario() == $_SESSION["empleado"])
+		{
+			if($item->GetAdministrador() == 0)
+			{
+				header("Location:menuAdministrador.php");
+			}
+			else
+			{
+				header("Location:menuEmpleado.php");
+			}
+		}
+	}
 }
 else
 {
@@ -91,6 +109,7 @@ if(isset($_POST["txtEmpleado"]) && isset($_POST["txtPassword"]) && isset($_POST[
 				{
 					session_start();
 					$_SESSION["empleado"] = $_POST["txtEmpleado"];
+					Empleado::RegistrarLogin($_SESSION["empleado"],date("Y-m-d"));
 					header("Location:menuAdministrador.php");
 				}
 				else
@@ -99,11 +118,11 @@ if(isset($_POST["txtEmpleado"]) && isset($_POST["txtPassword"]) && isset($_POST[
 					{
 						session_start();
 						$_SESSION["empleado"] = $_POST["txtEmpleado"];
+						Empleado::RegistrarLogin($_SESSION["empleado"],date("Y-m-d"));
 						header("Location:menuEmpleado.php");
 					}
 					else
 					{
-						header("Location:index.php");
 						echo "El usuario ingresado no existe";
 					}
 				}

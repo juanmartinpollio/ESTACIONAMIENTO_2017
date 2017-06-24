@@ -12,23 +12,23 @@
         {
             var pagina = "http://localhost/tpEstacionamiento/ESTACIONAMIENTO_2017/apiRest/vehiculo";
 
-            var formData = new FormData();
-            formData.append("patente",$("#patente").val());
-
             $.ajax({
                 type: 'PUT',
                 url: pagina,
                 dataType: "json",
-                cache: false,
-                contentType: false,
-                processData: false,
-                data: formData,
+                data:{patente:$("#patente").val(),empleado : empleado},
                 async: true
             })
             .done(function (objJson) 
             {
-                var resultado = JSON.parse(objJson);
-                window.location.href = "listadoDeVehiculos.php";
+                if(objJson != "autoNoExisteQuitar")
+                {
+                    alert("Vehiculo retirado:\n"+"Patente: "+objJson.patente+"\nColor: "+objJson.color+"\nMarca: "+objJson.marca+"\nFecha de ingreso: "+objJson.fechaIngreso+"\nFecha de retiro: "+objJson.fechaRetiro+"\nPago: $"+objJson.pago);
+                }
+                else
+                {
+                    alert("El vehículo ingresado no se encuentra en el estacionamiento");
+                }
             })
             .fail(function (jqXHR, textStatus, errorThrown) {
             });    
@@ -37,9 +37,27 @@
     </script>
 </head>
 <body>
+
+    <?php
+
+    session_start();
+    
+    if(isset($_SESSION["empleado"]))
+    {
+        echo "<script type='text/javascript'>
+            
+        var empleado='".$_SESSION["empleado"]."';
+
+        </script>";
+    }
+
+    ?>
+
+
     <input type="text" id="patente" name="patente">
     </br>
     </br>
     <input type="button" value="Retirar vehículo" onclick="retirar()">
+    <a href="index.php">Volver al menú principal</a>
 </body>
 </html>

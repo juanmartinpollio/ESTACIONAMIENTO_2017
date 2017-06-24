@@ -7,8 +7,67 @@
     <title>TP Estacionamiento - Registrar Vehículo</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="funciones.js"></script>
+    <script type="text/javascript">
+    
+    function agregar()
+    {
+        var pagina = "http://localhost/tpEstacionamiento/ESTACIONAMIENTO_2017/apiRest/vehiculo";
+
+        var formData = new FormData();
+        formData.append("patente",$("#patente").val());
+        formData.append("color",$("#color").val());
+        formData.append("marca",$("#marca").val());
+        formData.append("cochera",$("#cochera").val());
+        formData.append("empleado",empleado);
+
+        $.ajax({
+            type: 'POST',
+            url: pagina,
+            dataType: "json",
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            async: true
+        })
+        .done(function (objJson) 
+        {
+            var resultado = JSON.parse(objJson);
+            if(resultado == true)
+            {
+                alert("Vehículo agregado correctamente");
+            }
+            else
+            {
+                alert("Error, el vehículo ya existe");
+            }
+            window.location.href = "listadoDeVehiculos.php";
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+        });    
+
+    }
+
+
+    </script>
 </head>
 <body>
+
+    <?php
+
+    session_start();
+    
+    if(isset($_SESSION["empleado"]))
+    {
+        echo "<script type='text/javascript'>
+            
+        var empleado='".$_SESSION["empleado"]."';
+
+        </script>";
+    }
+
+    ?>
+
     Pantente:
     </br>
     <input type="text" name="patente" id="patente">
@@ -37,10 +96,6 @@
     </select>
     </br>
     </br>
-    <!--Foto del auto:
-    </br>
-    <input type="file" name="fotoDelAuto" id="fotoDelAuto">
-    </br>-->
     </br>
     <input type="button" value="Agregar vehiculo" onclick="agregar()">
     </br>

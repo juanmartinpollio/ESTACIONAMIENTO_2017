@@ -73,6 +73,8 @@ if(isset($_POST["habilitarEmpleado"]))
 				if($result == "habilitado")
 				{
 					echo "</br>Empleado correctamente habilitado";
+                    session_start();
+                    Empleado::ActualizarOperaciones($_SESSION["empleado"]);
 				}
 				else
 				{

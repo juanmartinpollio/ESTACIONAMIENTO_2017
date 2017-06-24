@@ -9,6 +9,7 @@ require 'vendor/autoload.php';
 require '../clases/AccesoDatos.php';
 require '../clases/Vehiculo.php';
 require '../clases/Cochera.php';
+require '../clases/Empleado.php';
 
 $config['displayErrorDetails'] = true;
 $config['addContentLengthHeader'] = false;
@@ -30,29 +31,26 @@ $app->post('/vehiculo', function (Request $request, Response $response){
 
     $vehiculo = array();
     $vehiculo = $request->getParsedBody();
-    $flag = TRUE;
-    $array = Vehiculo::TraerTodosLosVehiculos();
+    $flag = FALSE;
+    $array = Vehiculo::TraerTodosLosVehiculosCochera();
+    Empleado::ActualizarOperaciones($vehiculo["empleado"]);
 
-    foreach ($array as $item)
+    foreach ($array as $item) 
     {
-        if(strtolower($item["patente"]) != strtolower($vehiculo["patente"]))
+        if($item["patente"] == $vehiculo["patente"])
         {
-            $flag = TRUE;
-            break;
+            $json["exito"] = FALSE;
+            return json_encode($json["exito"]);
         }
         else
-        {
-            $flag = FALSE;
+        {                    
+            $flag = TRUE;
         }
     }
 
     if($flag === TRUE && Vehiculo::agregarVehiculo($vehiculo["patente"],$vehiculo["color"],$vehiculo["marca"],$vehiculo["cochera"],date("Y-m-d H:i:s")))
     {
         $json["exito"] = Vehiculo::agregarAutoAlEstacionamiento($vehiculo["patente"],$vehiculo["cochera"]);
-    }
-    else
-    {
-        $json["exito"] = FALSE;
     }
 
     return json_encode($json["exito"]);
@@ -71,9 +69,10 @@ $app->get('/vehiculo', function (Request $request, Response $response) {
 $app->put('/vehiculo', function (Request $request, Response $response){
     $patente = $request->getParsedBody();
 
-    $resultado["valor"] = Vehiculo::quitarAutoDelEstacionamiento($patente["patente"]);
+    $resultado = Vehiculo::quitarAutoDelEstacionamiento($patente["patente"]);
+    Empleado::ActualizarOperaciones($patente["empleado"]);
 
-    return json_encode($resultado["valor"]);
+    return json_encode($resultado);
 });
 
 $app->run();

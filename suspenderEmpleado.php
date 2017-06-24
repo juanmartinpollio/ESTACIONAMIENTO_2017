@@ -73,6 +73,8 @@ if(isset($_POST["suspenderEmpleado"]))
 				if($result == "suspendido")
 				{
 					echo "</br>Empleado correctamente suspendido";
+                    session_start();
+                    Empleado::ActualizarOperaciones($_SESSION["empleado"]);
 				}
 				else
 				{

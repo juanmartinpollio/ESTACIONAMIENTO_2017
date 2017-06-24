@@ -73,6 +73,8 @@ if(isset($_POST["eliminarEmpleado"]))
 				if($result == "borrado")
 				{
 					echo "</br>Empleado correctamente eliminado";
+                    session_start();
+                    Empleado::ActualizarOperaciones($_SESSION["empleado"]);
 				}
 				else
 				{

@@ -13,18 +13,38 @@ if(isset($_SESSION["empleado"]))
                 <title>TP Estacionamiento - Menú Empleado</title>
                 <script type="text/javascript" src="jquery.js"></script>
                 <script type="text/javascript" src="funciones.js"></script>
+                <script>
+        
+                function redireccionarListaVehiculos()
+                {
+                    window.location.href = "listadoDeVehiculos.php";
+                }
+
+                function redireccionarAltaVehiculos()
+                {
+                    window.location.href = "registrarVehiculo.php";
+                }
+
+                function redireccionarRetirarVehiculos()
+                {
+                    window.location.href = "retirarVehiculo.php";
+                }
+
+                </script>
             </head>
             <body>
                 <h2>Menú del empleado</h2>
                 Sesión inciada como: '.$_SESSION["empleado"].'</br>
-                <input type="button" value="Registrar vehículo">
-                </br>
-                <input type="button" value="Listado de vehículos">
-                </br>
-                <input type="button" value="Retirar vehículos">
-                </br>
-                </br>
-                <input type="button" value="Desloguearse" onclick="cerrarSesionEmpleado()">
+                <form action="menuAdministrador.php" method="POST">
+                    <input type="button" name="registrarVehiculo" value="Registrar vehículo" onclick="redireccionarAltaVehiculos()">
+                    </br>
+                    <input type="button" value="Historial de vehículos" onclick="redireccionarListaVehiculos()">
+                    </br>
+                    <input type="button" value="Retirar vehículos" onclick="redireccionarRetirarVehiculos()">
+                    </br>
+                    </br>
+                    <input type="button" value="Desloguearse" onclick="cerrarSesionEmpleado()">
+                </form>
             </body>
             </html>';
 }

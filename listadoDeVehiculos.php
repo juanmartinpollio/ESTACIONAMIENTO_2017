@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TP Estacionamiento - Listado de vehículos</title>
+    <title>TP Estacionamiento - Historial de vehículos</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="funciones.js"></script>
     <script>
@@ -27,11 +27,26 @@
             var tablaCuerpo = "";
             var tablaPie = "</tr></html>";
 
+
             for(var i=0;i<objJson.length;i++)
             {
+                if(objJson[i].pago == 0)
+                {
+                    objJson[i].pago = "El vehículo aún se encuentra en el estacionamiento";
+                }
+                else
+                {
+                    objJson[i].pago = "$"+objJson[i].pago;
+                }
+
+                if(objJson[i].fechaRetiro == "0000-00-00 00:00:00")
+                {
+                    objJson[i].fechaRetiro = "El vehículo aún se encuentra en el estacionamiento";
+                }
+
                 tablaCuerpo += "<tr><td>"+objJson[i].patente+"</td><td>"+objJson[i].color;
                 tablaCuerpo += "</td><td>"+objJson[i].marca+"</td><td>"+objJson[i].cochera;
-                tablaCuerpo += "</td><td>"+objJson[i].fechaIngreso+"</td><td>"+objJson[i].fechaRetiro+"</td><td>$"+objJson[i].pago+"</td></tr>";
+                tablaCuerpo += "</td><td>"+objJson[i].fechaIngreso+"</td><td>"+objJson[i].fechaRetiro+"</td><td>"+objJson[i].pago+"</td></tr>";
             }
 
             $("#divTabla").html(tablaEncabezado+tablaCuerpo+tablaPie);

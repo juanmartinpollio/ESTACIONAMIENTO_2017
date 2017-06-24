@@ -112,6 +112,8 @@ if(isset($_POST["agregarEmpleado"]))
             {//MOSTRAMOS EL RESULTADO DEL METODO DEL WS.
 				if($result == "agregado")
 				{
+                    session_start();
+                    Empleado::ActualizarOperaciones($_SESSION["empleado"]);
                     header("Location:menuAdministrador.php");
 				}
 				else
