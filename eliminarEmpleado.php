@@ -1,28 +1,78 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TP Estacionamiento - Eliminar Empleado</title>
-    <!--<script type="text/javascript" src="../jquery.js"></script>
-    <script type="text/javascript" src="../funciones.js"></script>-->
-</head>
-<body>
-    <form action="eliminarEmpleado.php" method="POST">
-        <h2>Eliminar empleado</h2>
-        Usuario del empleado a eliminar:
-        </br>
-        <input type="text" name="usuario">
-        </br>
-        </br>
-        <input type="submit" name="eliminarEmpleado" value="Eliminar empleado">
-    </form>
-    </br>
-    </br>
-    <a href="menuAdministrarEmpleados.php">Volver al administrador de empleados</a>
-</body>
-</html>
+<?php
+
+require "clases/Empleado.php";
+
+session_start();
+
+if(isset($_SESSION["empleado"]))
+{
+    $arrayDeEmpleados = [];
+	$arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
+    $flag = 0;
+
+	foreach ($arrayDeEmpleados as $item) 
+	{
+		if($item->GetUsuario() == $_SESSION["empleado"])
+		{
+                if($item->GetAdministrador() == 0)
+                {
+                    echo '<!DOCTYPE html>
+                            <html lang="es">
+                            <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                                <title>TP Estacionamiento - Despedir Empleado</title>
+                                <link href="estilos/css/bootstrap.min.css" rel="stylesheet" media="screen">
+                            </head>
+                            <body style="background-color:#87FACB;">
+                                <header>
+                                    <nav class="navbar navbar-inverse" role="navigation">
+                                        <div class="container fluid">
+                                            <div class="navbar-header">
+                                            </div>
+                                                <ul class="nav navbar-nav">
+                                                    <li><a href="menuAdministrador.php">Menú principal</a></li>
+                                                    <li class="active"><a href="menuAdministrarEmpleados.php">Empleados</a></li>
+                                                    <li><a href="menuAdministrarVehiculos.php">Vehículos</a></li>
+                                                    <li><a href="listadoDeEmpleados.php">Historial de empleados</a></li>
+                                                    <li><a href="listadoDeVehiculos.php">Historial de vehículos</a></li>
+                                                </ul>
+                                                <ul class="nav navbar-nav navbar-right">
+                                                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> '.$_SESSION["empleado"]. ' (Administrador)</a></li>
+                                                </ul>
+                                        </div>
+                                    </nav>
+                                </header>
+                                <div class="form-group text-center">
+                                <form action="eliminarEmpleado.php" method="POST">
+                                    <font color="black"><h2 style="background-color:white;">Despedir empleado</h2></font>
+                                    <font size="4px" color="black">Usuario del empleado a despedir:</font>
+                                    <input type="text" name="usuario">
+                                    </br>
+                                    </br>
+                                    <input type="submit" class="btn btn-success" name="eliminarEmpleado" value="Despedir empleado">
+                                </form>
+                                </br>
+                                </br>
+                                <a href="menuAdministrarEmpleados.php" class="btn btn-primary">Volver al administrador de empleados</a>
+                                </div>
+                            </body>
+                            </html>';
+			}
+			else
+			{
+				header("Location:menuEmpleado.php");
+			}
+		}
+	}
+}
+else
+{
+    header("Location:index.php");
+}
+
+?>
 
 <?php
 
@@ -72,7 +122,7 @@ if(isset($_POST["eliminarEmpleado"]))
             {//MOSTRAMOS EL RESULTADO DEL METODO DEL WS.
 				if($result == "borrado")
 				{
-					echo "</br>Empleado correctamente eliminado";
+					echo "</br><pre style='background-color:black;'><div class='alert alert-success text-center'>Empleado correctamente eliminado</div></pre>";
                     session_start();
                     Empleado::ActualizarOperaciones($_SESSION["empleado"]);
 				}
@@ -80,11 +130,11 @@ if(isset($_POST["eliminarEmpleado"]))
 				{
 					if($result == "yaBorrado")
                     {
-                        echo "</br>El empleado ya ha sido borrado anteriormente";
+                        echo "</br><pre style='background-color:black;'><div class='alert alert-warning text-center'>El empleado ya ha sido borrado anteriormente</div></pre>";
                     }
                     else
                     {
-                        echo "</br>El empleado no existe";
+                        echo "</br><pre style='background-color:black;'><div class='alert alert-danger text-center'>El empleado no existe</div></pre>";
                     }
 				}
 			}

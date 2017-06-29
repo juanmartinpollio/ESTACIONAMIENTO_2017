@@ -75,4 +75,17 @@ $app->put('/vehiculo', function (Request $request, Response $response){
     return json_encode($resultado);
 });
 
+$app->get('/empleados', function (Request $request, Response $response){
+    
+});
+
+$app->get('/cocheras', function (Request $request, Response $response){
+    $cocheras = array();
+    $cocheras = Vehiculo::TraerTodosLosVehiculosCochera();
+
+    $response->getBody()->write(json_encode($cocheras));
+
+    return $response;
+});
+
 $app->run();

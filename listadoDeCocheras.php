@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TP Estacionamiento - Historial de vehículos</title>
+    <title>TP Estacionamiento - Listado de cocheras</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="funciones.js"></script>
     <link href="estilos/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script>
+
     window.onload = traerTodos;
 
     function traerTodos()
     {
-        var pagina = "http://localhost/tpEstacionamiento/ESTACIONAMIENTO_2017/apiRest/vehiculo";
+        var pagina = "http://localhost/tpEstacionamiento/ESTACIONAMIENTO_2017/apiRest/cocheras";
 
         $.ajax({
             type: 'GET',
@@ -23,31 +24,29 @@
         })
         .done(function (objJson) 
         {
-            var tablaEncabezado = "<div class='container'><table class='table table-striped' style='background-color:white;'>";
-            tablaEncabezado += "<tr><th>PATENTE</th><th>COLOR</th><th>MARCA</th><th>COCHERA UTILIZADA</th><th>FECHA DE INGRESO</th><th>FECHA DE RETIRO</th><th>PAGO</th></tr>";
+            var tablaEncabezado = "<table class='table' style='background-color:white;'>";
+            tablaEncabezado += "<tr><th>PATENTE</th><th>TIPO</th><th>NUMERO</th><th>ESTADO</th><th>CANTIDAD DE VECES USADA</th><th>FECHA DE INGRESO</th></tr>";
             var tablaCuerpo = "";
-            var tablaPie = "</tr></div>";
+            var tablaPie = "</tr>";
 
 
             for(var i=0;i<objJson.length;i++)
             {
-                if(objJson[i].pago == 0)
+                if(objJson[i].estado == 0 && objJson[i].patente == "vacio")
                 {
-                    objJson[i].pago = "El vehículo aún se encuentra en el estacionamiento";
+                    objJson[i].patente = "-";
+                    objJson[i].estado = "Disponible";
+                    tablaCuerpo += "<tr class='success'><td>"+objJson[i].patente+"</td><td>"+objJson[i].tipo;
+                    tablaCuerpo += "</td><td>"+objJson[i].numero+"</td><td>"+objJson[i].estado;
+                    tablaCuerpo += "</td><td>"+objJson[i].cantidadUsada+"</td><td>"+objJson[i].fechaIngreso+"</td></tr>";
                 }
                 else
                 {
-                    objJson[i].pago = "$"+objJson[i].pago;
+                    objJson[i].estado = "Ocupada";
+                    tablaCuerpo += "<tr class='danger'><td>"+objJson[i].patente+"</td><td>"+objJson[i].tipo;
+                    tablaCuerpo += "</td><td>"+objJson[i].numero+"</td><td>"+objJson[i].estado;
+                    tablaCuerpo += "</td><td>"+objJson[i].cantidadUsada+"</td><td>"+objJson[i].fechaIngreso+"</td></tr>";
                 }
-
-                if(objJson[i].fechaRetiro == "0000-00-00 00:00:00")
-                {
-                    objJson[i].fechaRetiro = "El vehículo aún se encuentra en el estacionamiento";
-                }
-
-                tablaCuerpo += "<tr><td>"+objJson[i].patente+"</td><td>"+objJson[i].color;
-                tablaCuerpo += "</td><td>"+objJson[i].marca+"</td><td>"+objJson[i].cochera;
-                tablaCuerpo += "</td><td>"+objJson[i].fechaIngreso+"</td><td>"+objJson[i].fechaRetiro+"</td><td>"+objJson[i].pago+"</td></tr>";
             }
 
             $("#divTabla").html(tablaEncabezado+tablaCuerpo+tablaPie);
@@ -67,15 +66,39 @@
                 </div>
                     <ul class="nav navbar-nav">
                         <li><a href="index.php">Menú principal</a></li>
-                        <li><a href="menuAdministrarEmpleados.php">Empleados</a></li>
-                        <li><a href="menuAdministrarVehiculos.php">Vehículos</a></li>
-                        <li><a href="listadoDeEmpleados.php">Historial de empleados</a></li>
-                        <li class="active"><a href="listadoDeVehiculos.php">Historial de vehículos</a></li>
+                        <?php
+
+                        require "clases/Empleado.php";
+                        session_start(); 
+                        $arrayDeEmpleados = [];
+                        $arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
+
+                        foreach ($arrayDeEmpleados as $item) 
+                        {
+                            if($item->GetUsuario() == $_SESSION["empleado"])
+                            {
+                                if($item->GetAdministrador() == 0)
+                                {
+                                    echo '<li><a href="menuAdministrarEmpleados.php">Empleados</a></li>
+                                        <li class="active"><a href="menuAdministrarVehiculos.php">Vehículos</a></li>
+                                        <li><a href="listadoDeEmpleados.php">Historial de empleados</a></li>
+                                        <li><a href="listadoDeVehiculos.php">Historial de vehículos</a></li>';
+                                }
+                                else
+                                {
+                                    echo '<li class="active"><a href="menuAdministrarVehiculos.php">Vehículos</a></li>';
+                                }
+                            }
+                        }
+
+
+                        
+
+                        ?>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"><span class="glyphicon glyphicon-user"></span> <?php 
-                                                                                        require "clases/Empleado.php";
-                                                                                        session_start(); 
+
                                                                                         echo $_SESSION["empleado"]; 
                                                                                         $arrayDeEmpleados = [];
                                                                                         $arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
@@ -124,9 +147,9 @@
     ?>
 
     <div class="form-group text-center">
-    <font color="black"><h2 style="background-color:white;">Historial de vehículos</h2></font>
-    <div id="divTabla" class="table-striped"></div>
-    <a href="menuAdministrador.php" class="btn btn-primary">Volver a la página principal</a>
+    <font color="black"><h2 style="background-color:white;">Listado de cocheras</h2></font>
+    <div id="divTabla" class="container"></div>
+    <a href="menuAdministrarVehiculos.php" class="btn btn-primary">Volver a la página principal</a>
     </div>
 </body>
 </html>

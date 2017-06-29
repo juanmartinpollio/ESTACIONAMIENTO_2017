@@ -33,23 +33,24 @@ else
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>TP Estacionamiento - Ingreso como empleado</title>
-		<!--<script type="text/javascript" src="jquery.js"></script>
-		<script type="text/javascript" src="funciones.js"></script>-->
+		<link href="estilos/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	</head>
-	<body>
-		<h3>LOGIN DEL PERSONAL</h3>
-		<form action="index.php" method="POST">
-			Usuario:
+	<body background="http://aktivdv.ru/uploads/sale/993631b1b5024877198f35f1aa817d26.jpg">
+		<div class="form-group text-center">
+			<font color="black"><h3 style="background-color:white;">LOGIN DEL PERSONAL</h3></font>
+			<form action="index.php" method="POST">
+			<font color="black">Usuario:</font>
 			</br>
 			<input type="text" name="txtEmpleado" id="txtEmpleado" placeholder="Usuario" required>
 			</br>
-			Contraseña:
+			<font color="black">Contraseña:</font>
 			</br>
 			<input type="password" name="txtPassword" id="txtPassword" placeholder="Password" required>
 			</br>
 			</br>
-			<input type="submit" name="login" value="Ingresar">
+			<input class="btn btn-success" type="submit" name="login" value="Ingresar">
 		</form>
+		</div>
 
 	</body>
 	</html>';

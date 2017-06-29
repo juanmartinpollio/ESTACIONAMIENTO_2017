@@ -10,9 +10,10 @@ if(isset($_SESSION["empleado"]))
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>TP Estacionamiento - Menú Administrador</title>
+        <title>TP Estacionamiento - Menú del Administrador</title>
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript" src="funciones.js"></script>
+        <link href="estilos/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <script>
         
         function redireccionarListaVehiculos()
@@ -32,21 +33,33 @@ if(isset($_SESSION["empleado"]))
 
         </script>
     </head>
-    <body>
-        <form action="menuAdministrador.php" method="POST">
-            <h2>Menú del administrador</h2>
-            Sesión inciada como: '.$_SESSION["empleado"].'</br>
-            <input type="button" name="registrarVehiculo" value="Registrar vehículo" onclick="redireccionarAltaVehiculos()">
+    <body background="http://aktivdv.ru/uploads/sale/993631b1b5024877198f35f1aa817d26.jpg">
+        <header>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container fluid">
+                <div class="navbar-header">
+                </div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="menuAdministrador.php">Menú principal</a></li>
+                        <li><a href="menuAdministrarEmpleados.php">Empleados</a></li>
+                        <li><a href="menuAdministrarVehiculos.php">Vehículos</a></li>
+                        <li><a href="listadoDeEmpleados.php">Historial de empleados</a></li>
+                        <li><a href="listadoDeVehiculos.php">Historial de vehículos</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> '.$_SESSION["empleado"].' (Administrador)</a></li>
+                    </ul>
+            </div>
+        </nav>
+        </header>
+        <div class="form-group text-center">
+            <form action="menuAdministrador.php" method="POST">
+            <h2 style="background-color:white;">Menú del administrador</h2>
             </br>
-            <input type="button" value="Historial de vehículos" onclick="redireccionarListaVehiculos()">
             </br>
-            <input type="button" value="Retirar vehículos" onclick="redireccionarRetirarVehiculos()">
-            </br>
-            <input type="button" value="Administrar personal" onclick="redireccionarAdministrarEmpleados()">
-            </br>
-            </br>
-            <input type="button" value="Desloguearse" onclick="cerrarSesionEmpleado()">
+            <input type="button" class="btn btn-danger" value="Desloguearse" onclick="cerrarSesionEmpleado()">
         </form>
+        </div>
     </body>
     </html>';
 

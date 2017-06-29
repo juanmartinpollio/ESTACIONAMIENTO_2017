@@ -7,6 +7,7 @@
     <title>TP Estacionamiento - Registrar Vehículo</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="funciones.js"></script>
+    <link href="estilos/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <script type="text/javascript">
     
     function agregar()
@@ -41,7 +42,7 @@
             {
                 alert("Error, el vehículo ya existe");
             }
-            window.location.href = "listadoDeVehiculos.php";
+            window.location.href = "listadoDeCocheras.php";
         })
         .fail(function (jqXHR, textStatus, errorThrown) {
         });    
@@ -51,12 +52,74 @@
 
     </script>
 </head>
-<body>
+<body style="background-color:#87FACB;">
+    <header>
+        <nav class="navbar navbar-inverse" role="navigation">
+            <div class="container fluid">
+                <div class="navbar-header">
+                </div>
+                    <ul class="nav navbar-nav">
+                        <li><a href="index.php">Menú principal</a></li>
+                        <?php
+
+                        require "clases/Empleado.php";
+                        session_start(); 
+                        $arrayDeEmpleados = [];
+                        $arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
+
+                        foreach ($arrayDeEmpleados as $item) 
+                        {
+                            if($item->GetUsuario() == $_SESSION["empleado"])
+                            {
+                                if($item->GetAdministrador() == 0)
+                                {
+                                    echo '<li><a href="menuAdministrarEmpleados.php">Empleados</a></li>
+                                        <li class="active"><a href="menuAdministrarVehiculos.php">Vehículos</a></li>
+                                        <li><a href="listadoDeEmpleados.php">Historial de empleados</a></li>
+                                        <li><a href="listadoDeVehiculos.php">Historial de vehículos</a></li>';
+                                }
+                                else
+                                {
+                                    echo '<li class="active"><a href="menuAdministrarVehiculos.php">Vehículos</a></li>';
+                                }
+                            }
+                        }
+
+
+                        
+
+                        ?>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> <?php 
+    
+                                                                                        echo $_SESSION["empleado"]; 
+                                                                                        $arrayDeEmpleados = [];
+                                                                                        $arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
+
+                                                                                        foreach ($arrayDeEmpleados as $item) 
+                                                                                        {
+                                                                                            if($item->GetUsuario() == $_SESSION["empleado"])
+                                                                                            {
+                                                                                                if($item->GetAdministrador() == 0)
+                                                                                                {
+                                                                                                    echo " (Administrador)";
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    echo " (Empleado)";
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                        ?></a></li>
+                    </ul>
+            </div>
+        </nav>
+    </header>
+
 
     <?php
 
-    session_start();
-    
     if(isset($_SESSION["empleado"]))
     {
         echo "<script type='text/javascript'>
@@ -66,21 +129,31 @@
         </script>";
     }
 
-    ?>
+    if(isset($_SESSION["empleado"]))
+    {
+        
+    }
+    else
+    {
+        header("Location:index.php");
+    }
 
-    Pantente:
+    ?>
+    <div class="form-group text-center">
+    <font color="black"><h2 style="background-color:white;">Registro del vehículo</h2></font>
+    <font size="4px" color="black">Pantente:</font>
     </br>
     <input type="text" name="patente" id="patente">
     </br>
-    Color:
+    <font size="4px" color="black">Color:</font>
     </br>
     <input type="text" name="color" id="color">
     </br>
-    Marca:
+    <font size="4px" color="black">Marca:</font>
     </br>
     <input type="text" name="marca" id="marca">
     </br>
-    Tipo de cochera:
+    <font size="4px" color="black">Tipo de cochera:</font>
     </br>
     <select name="discapacidad" id="discapacidad" onchange="actualizarCocheras()">
     <option value="">--SELECCIONE UNA OPCION--</option>
@@ -89,16 +162,19 @@
     </select>
     </br>
     </br>
-    Cocheras disponibles:
+    <font size="4px" color="black">Cocheras disponibles:</font>
     </br>
     <select name="cochera" id="cochera">
     <option value="0">--Esperando tipo de cocheras--</option>
     </select>
     </br>
     </br>
+    <input type="button" class="btn btn-success" value="Agregar vehiculo" onclick="agregar()">
     </br>
-    <input type="button" value="Agregar vehiculo" onclick="agregar()">
     </br>
-    <a href="index.php">Volver al menú principal</a>
+    </br>
+    </br>
+    <a href="menuAdministrarVehiculos.php" class="btn btn-primary">Volver al menú principal</a>
+    </div>
 </body>
 </html>

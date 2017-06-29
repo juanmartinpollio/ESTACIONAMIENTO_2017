@@ -1,41 +1,13 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>TP Estacionamiento - Retirar Vehículo</title>
+    <title>TP Estacionamiento - Administración de Vehículos</title>
     <script type="text/javascript" src="jquery.js"></script>
     <script type="text/javascript" src="funciones.js"></script>
     <link href="estilos/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <script>
-        function retirar()
-        {
-            var pagina = "http://localhost/tpEstacionamiento/ESTACIONAMIENTO_2017/apiRest/vehiculo";
-
-            $.ajax({
-                type: 'PUT',
-                url: pagina,
-                dataType: "json",
-                data:{patente:$("#patente").val(),empleado : empleado},
-                async: true
-            })
-            .done(function (objJson) 
-            {
-                if(objJson != "autoNoExisteQuitar")
-                {
-                    alert("Vehiculo retirado:\n"+"Patente: "+objJson.patente+"\nColor: "+objJson.color+"\nMarca: "+objJson.marca+"\nFecha de ingreso: "+objJson.fechaIngreso+"\nFecha de retiro: "+objJson.fechaRetiro+"\nPago: $"+objJson.pago);
-                }
-                else
-                {
-                    alert("El vehículo ingresado no se encuentra en el estacionamiento");
-                }
-            })
-            .fail(function (jqXHR, textStatus, errorThrown) {
-            });    
-
-        }
-    </script>
 </head>
 <body style="background-color:#87FACB;">
     <header>
@@ -45,6 +17,7 @@
                 </div>
                     <ul class="nav navbar-nav">
                         <li><a href="index.php">Menú principal</a></li>
+
                         <?php
 
                         require "clases/Empleado.php";
@@ -74,10 +47,11 @@
                         
 
                         ?>
+
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="#"><span class="glyphicon glyphicon-user"></span> <?php 
-                                                                                        
+
                                                                                         echo $_SESSION["empleado"]; 
                                                                                         $arrayDeEmpleados = [];
                                                                                         $arrayDeEmpleados = Empleado::TraerTodosLosEmpleadosBD();
@@ -101,41 +75,37 @@
             </div>
         </nav>
     </header>
-
-
-    <?php
-    
-    if(isset($_SESSION["empleado"]))
-    {
-        echo "<script type='text/javascript'>
-            
-        var empleado='".$_SESSION["empleado"]."';
-
-        </script>";
-    }
-
-    if(isset($_SESSION["empleado"]))
-    {
-        
-    }
-    else
-    {
-        header("Location:index.php");
-    }
-
-    ?>
-
     <div class="form-group text-center">
-    <font color="black"><h2 style="background-color:white;">Retirar vehículo</h2></font>
-    <input type="text" id="patente" name="patente" placeholder="Ingrese la patente">
-    </br>
-    </br>
-    <input type="button" class="btn btn-success" value="Retirar vehículo" onclick="retirar()">
-    </br>
-    </br>
-    </br>
-    </br>
-    <a href="menuAdministrarVehiculos.php" class="btn btn-primary">Volver al menú principal</a>
+    <font color="black"><h2 style="background-color:white;">Administrar vehículos</h2></font>
+    <form action="menuAdministrarVehiculos.php" method="POST">
+    <div class="btn-group-vertical">
+        <input class="btn btn-default" type="submit" name="registrarAuto" value="Registrar auto">
+        <input class="btn btn-default" type="submit" name="retirarAuto" value="Retirar auto">
+        <input class="btn btn-default" type="submit" name="listadoDeCocheras" value="Listado de cocheras">
+        </br>
+        </br>
+    </div>
+    </form>
+    <a href="index.php" class="btn btn-primary">Volver al menú principal</a>
     </div>
 </body>
 </html>
+
+<?php
+
+if(isset($_POST["registrarAuto"]))
+{
+    header("Location:registrarVehiculo.php");
+}
+
+if(isset($_POST["retirarAuto"]))
+{
+    header("Location:retirarVehiculo.php");
+}
+
+if(isset($_POST["listadoDeCocheras"]))
+{
+    header("Location:listadoDeCocheras.php");
+}
+
+?>
